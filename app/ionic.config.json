@@ -1,0 +1,9 @@
+{
+  "name": "Colimobis",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone",
+  "regimesSourcePath": "./data/regimes.xlsx",
+  "regimesSheetName": "regimes"
+}

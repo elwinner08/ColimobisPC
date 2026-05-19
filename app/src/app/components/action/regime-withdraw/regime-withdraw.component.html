@@ -1,0 +1,37 @@
+<module-header [title]="title"></module-header>
+
+<ion-content class="ion-padding">
+    <module-regime-status [regime]="regime"></module-regime-status>
+    <module-regime-description [regime]="regime"></module-regime-description>
+
+    <div class="warning-msg">
+
+        <div class="icon-wrapper" (click)="disclaimerCheckToggle()">
+            <div class="white-square">
+                <div *ngIf="isDisclaimerChecked" class="orange-square"></div>
+            </div>
+        </div>
+
+        <p class=" disclaimer" (click)="disclaimerCheckToggle()">En déclarant de mon chantier, <strong>JE
+                M'ENGAGE</strong>
+            à
+            vérifier les points clé de
+            mon
+            intervention <strong>AVANT</strong> démarage sur le terrain, car ils garantissent <strong>MA
+                SECURITÉ</strong>.
+        </p>
+        <div></div>
+    </div>
+
+    <div class="button-zone">
+        <button class="coli-btn coli-btn-w-icon return-btn" (click)="back()">
+            <ion-icon name="arrow-back-circle"></ion-icon>
+            <span>Retour</span>
+        </button>
+        <button class="coli-btn coli-btn-w-icon report-btn" [routerLink]="'print'" [disabled]="!isDisclaimerChecked">
+            <ion-icon name="create"></ion-icon>
+            <span>Déclarer le démarrage</span>
+        </button>
+    </div>
+
+</ion-content>

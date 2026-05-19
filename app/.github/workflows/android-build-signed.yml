@@ -1,0 +1,63 @@
+name: Build and Upload Signed Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository with the specified branch
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }} # Check out the branch that triggered the workflow
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.9.0
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the Ionic app
+      - name: Build Ionic app
+        run: |
+          npm run build
+
+      # Install Capacitor Android dependencies
+      - name: Install Android SDK dependencies
+        run: npx cap sync android
+
+      # Set up Java for Android build
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu" # Install Zulu JDK
+          java-version: "17" # Use the appropriate version for Android
+
+      # Prepare Keystore File
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > android/app/keystore.jks
+
+      # Build the signed APK
+      - name: Build signed APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
+      # Upload the signed APK as an artifact
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: signed-android-apk
+          path: android/app/build/outputs/apk/release/app-release.apk

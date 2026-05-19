@@ -1,0 +1,30 @@
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+ion-toolbar,
+ion-header {
+    --min-height: 30px;
+}
+
+.right-side {
+    small {
+        margin-left: 2vh;
+    }
+}
+
+small {
+    color: white;
+}
+
+/* Hide specific text elements on smaller screens */
+@media (max-width: 480px) {
+
+    /* Adjust this value based on when you want the text hidden */
+    .right-side small:first-child,
+    .right-side small:nth-child(2) {
+        display: none;
+    }
+}

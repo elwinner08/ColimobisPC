@@ -1,0 +1,102 @@
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+table,
+th,
+td {
+    border: 1px white solid;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 5px;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+tr:nth-child(odd) {
+    color: white;
+}
+
+tr:nth-child(even) {
+    color: lightblue;
+}
+
+.regime-col,
+.demande-col,
+.OT-col,
+.RF-col {
+    width: 15%;
+}
+
+.label-col {
+    width: 25%;
+}
+
+.action-col-content {
+    text-align: center;
+}
+
+.icon {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.orientation-message {
+    text-align: center;
+    color: gray;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+
+@media (max-width: 600px) {
+
+    /* Hide non-essential columns on small screens */
+    .label-col,
+    .RF-col,
+    .OT-col {
+        display: none;
+    }
+
+    .regime-col,
+    .demande-col {
+        width: 50%;
+    }
+
+    tbody {
+
+        th,
+        td {
+            font-size: large;
+            height: 2em;
+        }
+    }
+
+}
+
+@media (min-width: 601px) {
+
+    /* Hides messages on large screens */
+    .orientation-message {
+        display: none;
+    }
+
+    tbody {
+
+        th,
+        td {
+            font-size: x-large;
+            height: 2em;
+        }
+    }
+
+}

@@ -1,0 +1,233 @@
+==============================================================
+                  COLIMOBIS - GUIDE D'INSTALLATION
+==============================================================
+
+Ce dossier contient tout ce qu'il faut pour installer et lancer
+l'application Colimobis sur un ordinateur Windows.
+
+Aucune connexion Internet n'est nécessaire.
+Aucun droit administrateur n'est nécessaire.
+Tout est portable : rien n'est installé "en dur" sur le PC.
+
+
+--------------------------------------------------------------
+ AVANT DE COMMENCER
+--------------------------------------------------------------
+
+* Système requis  : Windows 10 ou Windows 11
+* Espace disque   : environ 200 Mo
+* Navigateur      : Edge, Chrome ou Firefox (déjà présent sur
+                    tout PC Windows récent)
+
+
+--------------------------------------------------------------
+ ÉTAPE 1 - COPIER LE DOSSIER SUR L'ORDINATEUR
+--------------------------------------------------------------
+
+NE PAS lancer Colimobis depuis une clé USB : copiez d'abord
+le dossier complet sur le disque dur du PC.
+
+  1. Branchez la clé USB (ou ouvrez le ZIP fourni).
+  2. Copiez-collez le dossier "ColimobisInstaller" entier
+     vers un emplacement de votre choix, par exemple :
+
+         C:\Colimobis
+         ou bien :   Bureau
+
+     >>> Choisissez un chemin SANS accent et SANS espace
+         dans les noms de dossiers parents si possible.
+
+  3. Vous pouvez ensuite débrancher la clé USB.
+
+
+--------------------------------------------------------------
+ ÉTAPE 2 - PREMIÈRE INSTALLATION (à faire UNE seule fois)
+--------------------------------------------------------------
+
+  1. Ouvrez le dossier "ColimobisInstaller" que vous venez
+     de copier.
+
+  2. Repérez le fichier nommé :
+
+         setup.ps1
+
+  3. ATTENTION : ne faites PAS de double-clic dessus.
+     (un double-clic ouvrirait juste le code dans le
+      Bloc-notes et il ne se passerait rien.)
+
+  4. Faites un CLIC DROIT sur "setup.ps1", puis choisissez :
+
+         "Exécuter avec PowerShell"
+
+     (sous Windows 11, il faudra peut-être d'abord cliquer
+      sur "Afficher plus d'options" pour voir cette ligne.)
+
+  5. Une fenêtre noire (ou bleue) s'ouvre. C'est normal.
+
+  6. Si Windows affiche un message de sécurité du type :
+        "L'exécution de scripts est désactivée sur ce
+         système" ou "Cette opération est bloquée
+         par la stratégie système"
+     -> voir la section DÉPANNAGE plus bas.
+
+  7. Patientez : la fenêtre va afficher les étapes
+     [1/3], [2/3], [3/3]. La première fois, l'extraction
+     prend environ 1 à 2 minutes.
+
+  8. Quand l'installation est terminée, votre navigateur
+     web s'ouvre automatiquement sur l'adresse :
+
+         http://localhost:8100
+
+     L'application Colimobis est prête à être utilisée.
+
+  9. NE FERMEZ PAS la fenêtre noire pendant que vous
+     utilisez l'application : elle contient le serveur.
+     Si vous la fermez, l'application ne fonctionnera plus.
+
+
+--------------------------------------------------------------
+ ÉTAPE 3 - LANCEMENTS SUIVANTS (chaque fois après le 1er)
+--------------------------------------------------------------
+
+Une fois la première installation faite, vous n'avez plus
+besoin de "setup.ps1". Pour les fois suivantes :
+
+  1. Ouvrez le dossier "ColimobisInstaller".
+
+  2. Faites un DOUBLE-CLIC sur :
+
+         start colimobis.bat
+
+  3. Une fenêtre noire s'ouvre, le serveur démarre,
+     et le navigateur s'ouvre tout seul.
+
+  4. Pour ARRÊTER Colimobis : fermez simplement la
+     fenêtre noire (la croix en haut à droite).
+
+
+--------------------------------------------------------------
+ MODIFIER LES DONNÉES (FICHIER CSV)
+--------------------------------------------------------------
+
+Toutes les données de l'application sont enregistrées dans
+le fichier :
+
+         data\regimes.csv
+
+Pour le modifier confortablement, faites un DOUBLE-CLIC sur :
+
+         edit regimes.bat
+
+Cela ouvre le fichier dans Notepad++ avec un affichage en
+colonnes (plugin "CSV Lint").
+
+>>> IMPORTANT : N'OUVREZ JAMAIS le fichier "regimes.csv"
+    dans Microsoft Excel pendant que Colimobis est en
+    train de tourner. Excel verrouille le fichier et
+    l'application ne pourra plus enregistrer.
+
+>>> Si vous modifiez le CSV à la main, fermez Notepad++
+    (et enregistrez) avant de cliquer sur les boutons
+    de l'application, sinon vos modifications seraient
+    écrasées par celles faites côté navigateur.
+
+
+--------------------------------------------------------------
+ SAUVEGARDE DES DONNÉES
+--------------------------------------------------------------
+
+Faites régulièrement une copie du fichier :
+
+         data\regimes.csv
+
+vers une clé USB, un autre disque, ou OneDrive.
+C'est le seul fichier qui contient vos données saisies :
+si vous le perdez, vous perdez tout.
+
+Astuce : copiez-le en le renommant avec la date,
+par exemple :    regimes-2025-05-07.csv
+
+
+--------------------------------------------------------------
+ DÉPANNAGE
+--------------------------------------------------------------
+
+PROBLEME 1 : Au premier lancement, Windows dit :
+    "L'exécution de scripts est désactivée sur ce système"
+
+  C'est une protection Windows. Solution simple :
+
+  1. Cliquez sur le menu Démarrer.
+  2. Tapez : powershell
+  3. Faites CLIC DROIT sur "Windows PowerShell" et choisissez
+     "Exécuter en tant qu'administrateur".
+  4. Dans la fenêtre qui s'ouvre, copiez-collez la ligne
+     suivante puis appuyez sur Entrée :
+
+       Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+
+  5. Tapez la lettre  O  puis Entrée pour confirmer.
+  6. Fermez cette fenêtre.
+  7. Recommencez l'étape 2 du guide ("clic droit > Exécuter
+     avec PowerShell" sur setup.ps1).
+
+  (Si l'option "Exécuter en tant qu'administrateur" ne
+   s'affiche pas ou si elle vous est refusée par votre
+   service informatique, demandez-leur de débloquer
+   le script "setup.ps1".)
+
+
+PROBLEME 2 : Windows affiche "Windows a protégé votre
+    ordinateur" (écran bleu de SmartScreen)
+
+  1. Cliquez sur "Informations complémentaires".
+  2. Cliquez sur le bouton "Exécuter quand même".
+
+
+PROBLEME 3 : Le navigateur affiche "Ce site est inaccessible"
+    ou "localhost a refusé la connexion"
+
+  Le serveur n'a pas eu le temps de démarrer. Attendez
+  10 secondes puis appuyez sur F5 dans le navigateur.
+
+  Si cela ne marche toujours pas :
+  - Fermez la fenêtre noire.
+  - Relancez "start colimobis.bat".
+
+
+PROBLEME 4 : Colimobis dit "Fichier CSV verrouillé"
+
+  Le fichier regimes.csv est ouvert ailleurs (souvent dans
+  Excel). Fermez Excel (ou Notepad++) et réessayez.
+
+
+PROBLEME 5 : J'ai oublié à quelle adresse aller dans le
+    navigateur
+
+  Regardez la fenêtre noire : elle affiche une ligne
+  du type :   URL : http://localhost:8100
+  (le numéro de port peut varier entre 8100 et 8110).
+
+
+PROBLEME 6 : Le double-clic sur "setup.ps1" ouvre le
+    Bloc-notes au lieu de lancer le script
+
+  C'est le comportement normal de Windows : il NE FAUT PAS
+  double-cliquer sur "setup.ps1". Faites un CLIC DROIT
+  dessus, puis "Exécuter avec PowerShell".
+
+
+--------------------------------------------------------------
+ RÉSUMÉ ULTRA-RAPIDE
+--------------------------------------------------------------
+
+  1. Copier le dossier sur le PC.
+  2. Clic droit sur "setup.ps1" -> Exécuter avec PowerShell
+     (UNE fois, à la première installation).
+  3. Ensuite, double-clic sur "start colimobis.bat".
+  4. Pour modifier le CSV : double-clic sur "edit regimes.bat".
+  5. Pour arrêter : fermer la fenêtre noire.
+  6. Sauvegardez régulièrement le fichier data\regimes.csv.
+
+==============================================================

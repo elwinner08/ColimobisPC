@@ -1,0 +1,39 @@
+<module-header [title]="title"></module-header>
+
+<ion-content class="ion-padding">
+    <form #regimeSearch="ngForm">
+
+        <ion-grid>
+
+            <ion-row>
+                <ion-col>
+                    <h3 class="form-title">Scannez vos références</h3>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <ion-input [(ngModel)]="regimeId" class="default-input-style" name="regimeId"
+                        id="regimeId"></ion-input>
+                </ion-col>
+                <ion-col size="4">
+                    <button class="coli-btn coli-btn-w-icon" (click)="queryRegimes(regimeId)">
+                        <ion-icon name="checkbox"></ion-icon>
+                        <span>Valider</span>
+                    </button>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <button class="coli-btn coli-btn-w-icon" (click)="queryRegimes('')">
+                        <ion-icon name="search"></ion-icon>
+                        <span>Accéder à votre liste d'attestations</span>
+                    </button>
+                </ion-col>
+            </ion-row>
+
+        </ion-grid>
+
+    </form>
+</ion-content>

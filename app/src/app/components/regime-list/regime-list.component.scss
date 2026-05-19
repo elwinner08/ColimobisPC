@@ -1,0 +1,41 @@
+.container {
+    margin: auto;
+    overflow-x: scroll;
+}
+
+.regime-form {
+    margin-bottom: 15px;
+}
+
+ion-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type="radio"] {
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+label {
+    color: white;
+    font-weight: bold;
+}
+
+.button-zone {
+    display: flex;
+    justify-content: center;
+
+    button {
+        margin: 1em;
+    }
+}
+
+
+@media (max-width: 600px) {
+    ion-col {
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+}

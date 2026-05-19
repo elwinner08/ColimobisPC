@@ -1,0 +1,2 @@
+cd D:\Downloads\Développement\ColimobisInstaller\app
+npx ng build

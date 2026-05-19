@@ -1,0 +1,15 @@
+services:
+  colimobis:
+    build:
+      context: ..
+      dockerfile: app/Dockerfile
+    image: ${IMAGE_NAME:-colimobis}:${IMAGE_VERSION:-latest}
+    ports:
+      - "${PORT:-8100}:${PORT:-8100}"
+    environment:
+      - PORT=${PORT:-8100}
+    volumes:
+      - colimobis-data:/usr/src/app/data
+
+volumes:
+  colimobis-data:

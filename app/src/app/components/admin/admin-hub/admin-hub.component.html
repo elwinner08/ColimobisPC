@@ -1,0 +1,20 @@
+<module-header [title]="title"></module-header>
+
+<ion-content class="ion-padding">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <button class="coli-btn coli-btn-w-icon" [routerLink]="'regime-manage'">
+                    <ion-icon name="create"></ion-icon>
+                    <span>Changer les régimes</span>
+                </button>
+            </ion-col>
+            <ion-col>
+                <button class="coli-btn coli-btn-w-icon" [routerLink]="'audit-list'">
+                    <ion-icon name="eye"></ion-icon>
+                    <span>Consulter les logs</span>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

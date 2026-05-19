@@ -1,0 +1,50 @@
+form {
+    width: 60%;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border: 1px solid cyan;
+    color: white;
+    padding: 5px;
+}
+
+ion-input {
+    width: 100%;
+    padding: 5px;
+    --background: cyan;
+}
+
+.form-group-btn {
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.error-msg {
+    padding: 3px;
+    color: red;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    form {
+        width: 100%;
+    }
+
+    label {
+        text-align: left;
+        padding: 5px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    ion-row {
+        margin-bottom: 10px;
+    }
+}

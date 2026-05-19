@@ -1,0 +1,35 @@
+<module-header [title]="title"></module-header>
+
+<ion-content class="ion-padding">
+    <div class="btn-container">
+        <button class="coli-btn coli-btn-w-icon" [routerLink]="'regime-form'">
+            <ion-icon name="add-circle"></ion-icon>
+            <span>Ajouter un régime</span>
+        </button>
+
+        <button class="coli-btn coli-btn-w-icon" (click)="reloadFromFile()">
+            <ion-icon name="refresh-circle"></ion-icon>
+            <span>Recharger depuis le fichier</span>
+        </button>
+
+        <button class="coli-btn coli-btn-w-icon" (click)="exportCSV()">
+            <ion-icon name="download"></ion-icon>
+            <span>Exporter CSV</span>
+        </button>
+
+        <button class="coli-btn coli-btn-w-icon" (click)="exportXLSX()">
+            <ion-icon name="download"></ion-icon>
+            <span>Exporter XLSX</span>
+        </button>
+    </div>
+
+    <module-regime-table [regimeList]="regimeList" [isEditable]="true" (onEdit)="editRegime($event)"
+        (onDelete)="deleteRegime($event)"></module-regime-table>
+
+    <div class="return-container">
+        <button class="coli-btn coli-btn-w-icon" [routerLink]="'../'">
+            <ion-icon name="arrow-back-circle"></ion-icon>
+            <span>Retour</span>
+        </button>
+    </div>
+</ion-content>
