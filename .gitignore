@@ -1,0 +1,18 @@
+# Build artifacts
+dist/
+app/www/
+app/.angular/
+
+# Dependencies
+node_modules/
+
+# Runtime data (généré au premier lancement par setup.ps1)
+data/regimes.csv
+data/.port
+
+# Claude Code local config
+.claude/settings.local.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db

@@ -1,9 +1,0 @@
-{
-  "name": "colimobis-server",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Serveur Colimobis : sert l'appli Angular + API de synchronisation CSV",
-  "dependencies": {
-    "express": "^4.21.0"
-  }
-}

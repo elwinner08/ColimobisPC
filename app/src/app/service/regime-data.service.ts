@@ -26,7 +26,43 @@ export class RegimeDataService {
 
     async initDB() {
         this.database = new PouchDB('regimes')
-        await this.seedIfEmpty()
+        if (environment.csvSyncEnabled) {
+            await this.refreshFromServerCSV()
+        } else {
+            await this.seedIfEmpty()
+        }
+    }
+
+    private async refreshFromServerCSV() {
+        let fromAPI: Regime[];
+        try {
+            fromAPI = await this.sync.loadFromAPI();
+        } catch (err) {
+            console.error('Refresh depuis CSV échoué, PouchDB conservé:', err);
+            await this.getAllRegimes();
+            return;
+        }
+
+        if (!fromAPI.length) {
+            console.warn('CSV vide ou API indisponible : PouchDB conservé en l\'état');
+            await this.getAllRegimes();
+            return;
+        }
+
+        try {
+            this.isSeeding = true;
+            const all = await this.database.allDocs({ include_docs: true });
+            const toDelete = all.rows
+                .filter(r => r.doc && r.doc._id)
+                .map(r => ({ _id: r.doc!._id, _rev: r.doc!._rev, _deleted: true as const }));
+            if (toDelete.length) await this.database.bulkDocs(toDelete);
+            await this.database.bulkDocs(fromAPI.map(r => ({ ...r, _id: r._id })));
+            await this.getAllRegimes();
+        } catch (err) {
+            console.error('Erreur lors du refresh CSV:', err);
+        } finally {
+            this.isSeeding = false;
+        }
     }
 
     private async seedIfEmpty() {
