@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { Regime } from 'src/app/classes/regime';
 import { EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,9 +10,10 @@ import { IonIcon } from '@ionic/angular/standalone';
     templateUrl: './regime-table.component.html',
     styleUrls: ['./regime-table.component.scss'],
     imports: [NgFor, NgIf, FormsModule, IonIcon],
-    standalone: true
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegimeTableComponent implements OnInit {
+export class RegimeTableComponent {
 
     @Input() regimeList: Regime[] = []
     @Input() isEditable: boolean = false
@@ -21,9 +22,9 @@ export class RegimeTableComponent implements OnInit {
     @Output() onDelete = new EventEmitter<Regime>()
     @Output() onEdit = new EventEmitter<Regime>()
 
-    constructor() { }
-
-    ngOnInit() { }
+    trackById(_index: number, regime: Regime): string {
+        return regime._id
+    }
 
     actionEvent(regime: Regime): void {
         this.onAction.emit(regime)

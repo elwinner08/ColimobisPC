@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IonContent, IonIcon, IonInput } from '@ionic/angular/standalone';
 import { HeaderComponent } from "../../modules/header/header.component";
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -19,6 +20,8 @@ export class RegimeFormComponent implements OnInit {
     regime: Regime = new Regime()
     action = 'create'
 
+    private destroyRef = inject(DestroyRef)
+
     constructor(
         private router: Router,
         private route: ActivatedRoute,
@@ -29,10 +32,12 @@ export class RegimeFormComponent implements OnInit {
         const id = this.route.snapshot.params['id']
         this.action = this.route.snapshot.params['action'] || 'create'
 
-        this.regimeService.regimeList$.subscribe(regimes => {
-            const regimeJson = regimes.find(regime => regime._id?.includes(id)) || new Regime()
-            this.regime = Regime.fromJson(regimeJson)
-        })
+        this.regimeService.regimeList$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(regimes => {
+                const regimeJson = regimes.find(regime => regime._id?.includes(id)) || new Regime()
+                this.regime = Regime.fromJson(regimeJson)
+            })
     }
 
     onSubmit(regimeForm: NgForm) {

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Regime, RegimeState } from 'src/app/classes/regime';
 import { RegimeDataService } from 'src/app/service/regime-data.service';
@@ -22,6 +23,8 @@ export class RegimeListComponent implements OnInit {
     searchTerm = ''
     title = 'Sélection d\'attestations'
 
+    private destroyRef = inject(DestroyRef)
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -32,10 +35,12 @@ export class RegimeListComponent implements OnInit {
         this.searchTerm = this.route.snapshot.params['search']
         const normalize = (s: string) => s.replace(/\s/g, '').toUpperCase()
         const normalizedSearch = normalize(this.searchTerm)
-        this.regimeService.regimeList$.subscribe(regimes => {
-            this.regimeList = regimes.filter(regime => normalize(regime.rf ?? '').includes(normalizedSearch))
-            this.regimeFilteredList = this.regimeList.filter(regime => regime.state === RegimeState.STARTED)
-        })
+        this.regimeService.regimeList$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(regimes => {
+                this.regimeList = regimes.filter(regime => normalize(regime.rf ?? '').includes(normalizedSearch))
+                this.regimeFilteredList = this.regimeList.filter(regime => regime.state === RegimeState.STARTED)
+            })
     }
 
     moveBack() {

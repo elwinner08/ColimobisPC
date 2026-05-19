@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 
@@ -8,16 +8,15 @@ import { IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     imports: [IonHeader, IonToolbar, IonTitle, NgIf],
-    standalone: true
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
     @Input({ required: true }) title = ''
     @Input() hideRightPart = false
 
     constructor(private router: Router) { }
-
-    ngOnInit() { }
 
     logout() {
         this.router.navigate(['login'])

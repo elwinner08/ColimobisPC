@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Papa from 'papaparse';
-import * as XLSX from 'xlsx';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Regime } from 'src/app/classes/regime';
@@ -43,19 +41,20 @@ export class RegimeExternalLoaderService {
 
   private async loadCSV(url: string, delimiter: string): Promise<Regime[]> {
     const text = await firstValueFrom(this.http.get(url, { responseType: 'text' }));
+    const Papa = (await import('papaparse')).default;
     const parsed = Papa.parse(text, { header: true, skipEmptyLines: true, delimiter });
     if (parsed.errors?.length) {
       console.warn('Avertissements CSV:', parsed.errors);
     }
     return (parsed.data as any[])
       .map(row => this.normalize(row))
-      .filter(r => r._id !== '');  // ignore les lignes vides
+      .filter(r => r._id !== '');
   }
 
   private async loadXLSX(url: string, sheetName?: string): Promise<Regime[]> {
     const buf = await firstValueFrom(this.http.get(url, { responseType: 'arraybuffer' }));
+    const XLSX = await import('xlsx');
     const wb = XLSX.read(buf);
-    // Prend la feuille demandée ou la première feuille disponible
     const ws = (sheetName && wb.Sheets[sheetName]) ? wb.Sheets[sheetName] : wb.Sheets[wb.SheetNames[0]];
     const rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
     return (rows as any[])

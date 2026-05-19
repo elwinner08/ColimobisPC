@@ -5,8 +5,6 @@ import { RegimeExternalLoaderService } from './regime-external-loader.service';
 import { RegimeSyncService } from './regime-sync.service';
 import { environment } from 'src/environments/environment';
 import PouchDB from 'pouchdb';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
 @Injectable({
     providedIn: 'root'
@@ -190,11 +188,13 @@ export class RegimeDataService {
         const csv = lines.join('\r\n');
 
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const { saveAs } = await import('file-saver');
         saveAs(blob, 'regimes-export.csv');
     }
 
     public async exportXLSX(sheetName: string = 'regimes'): Promise<void> {
         const regimes = this.regimeListSubject.value ?? [];
+        const XLSX = await import('xlsx');
         const ws = XLSX.utils.json_to_sheet(regimes);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, sheetName);
@@ -202,6 +202,7 @@ export class RegimeDataService {
         const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
         const blob = new Blob([wbout], { type: 'application/octet-stream' });
 
+        const { saveAs } = await import('file-saver');
         saveAs(blob, 'regimes-export.xlsx');
     }
 
