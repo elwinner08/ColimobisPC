@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IonContent, IonGrid, IonCol, IonIcon, IonRow, IonTextarea } from '@ionic/angular/standalone';
 import { RegimeStatusComponent } from "../../modules/regime-status/regime-status.component";
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -21,6 +22,8 @@ export class RegimeRestoreComponent implements OnInit {
     activity!: boolean
     title = 'Quitter un chantier'
 
+    private destroyRef = inject(DestroyRef)
+
     constructor(
         private route: ActivatedRoute,
         private regimeService: RegimeDataService,
@@ -29,10 +32,12 @@ export class RegimeRestoreComponent implements OnInit {
 
     ngOnInit() {
         const id = this.route.snapshot.params['id']
-        this.regimeService.regimeList$.subscribe(regimes => {
-            const regimeJson = regimes.find(regime => regime._id.includes(id))
-            this.regime = Regime.fromJson(regimeJson)
-        })
+        this.regimeService.regimeList$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(regimes => {
+                const regimeJson = regimes.find(regime => regime._id.includes(id))
+                this.regime = Regime.fromJson(regimeJson)
+            })
     }
 
     back(): void {

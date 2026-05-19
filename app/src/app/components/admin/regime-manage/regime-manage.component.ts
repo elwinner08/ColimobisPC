@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { RegimeTableComponent } from "../../modules/regime-table/regime-table.component";
 import { RegimeDataService } from 'src/app/service/regime-data.service';
@@ -18,24 +19,29 @@ export class RegimeManageComponent implements OnInit {
     title = 'Administrer les régimes'
     regimeList: Regime[] = []
 
+    private destroyRef = inject(DestroyRef)
+
     constructor(
         private router: Router,
         private regimeService: RegimeDataService
     ) { }
-	
-async reloadFromFile() {
-  await this.regimeService.reloadFromFile();
-}
 
-async exportCSV() {
-  await this.regimeService.exportCSV(';'); // adapte le séparateur
-}
+    async reloadFromFile() {
+        await this.regimeService.reloadFromFile();
+    }
 
-async exportXLSX() {
-  await this.regimeService.exportXLSX('regimes');
-}
+    async exportCSV() {
+        await this.regimeService.exportCSV(';');
+    }
+
+    async exportXLSX() {
+        await this.regimeService.exportXLSX('regimes');
+    }
+
     ngOnInit() {
-        this.regimeService.regimeList$.subscribe(regimes => this.regimeList = regimes)
+        this.regimeService.regimeList$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(regimes => this.regimeList = regimes)
     }
 
     editRegime(regime: Regime) {

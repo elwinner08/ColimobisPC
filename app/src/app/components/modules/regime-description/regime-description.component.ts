@@ -1,18 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Regime } from 'src/app/classes/regime';
 
 @Component({
     selector: 'module-regime-description',
     templateUrl: './regime-description.component.html',
     styleUrls: ['./regime-description.component.scss'],
-    standalone: true
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegimeDescriptionComponent implements OnInit {
+export class RegimeDescriptionComponent {
 
     @Input() regime: Regime = new Regime()
-
-    constructor() { }
-
-    ngOnInit() { }
 
 }

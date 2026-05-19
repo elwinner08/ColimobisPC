@@ -3,7 +3,6 @@ import { formatDate } from '@angular/common';
 import { Audit } from '../classes/audit';
 import { BehaviorSubject } from 'rxjs';
 import PouchDB from 'pouchdb';
-import { saveAs } from 'file-saver';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -122,6 +121,7 @@ export class AuditDataService {
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
 
             const now = formatDate(new Date(), 'yyyyMMdd_HHmmss', 'fr-FR');
+            const { saveAs } = await import('file-saver');
             saveAs(blob, `audit-log-${now}.csv`);
         } catch (error) {
             console.error('Error exporting audit CSV:', error);

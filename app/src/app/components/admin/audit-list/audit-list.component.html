@@ -7,14 +7,12 @@
     </div>
 
     <ion-list>
-        <ion-item *ngFor="let audit of auditList">
-            <ion-item>
-                <p>
-                    {{audit.formattedDate()}} : {{audit.regimeId}} - {{audit.stateBefore}}
-                    <ion-icon color="light" name="arrow-forward"></ion-icon>
-                    {{audit.stateCurrent}}
-                </p>
-            </ion-item>
+        <ion-item *ngFor="let audit of auditList; trackBy: trackById">
+            <p>
+                {{audit.formattedDate}} : {{audit.regimeId}} - {{audit.stateBefore}}
+                <ion-icon color="light" name="arrow-forward"></ion-icon>
+                {{audit.stateCurrent}}
+            </p>
         </ion-item>
     </ion-list>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

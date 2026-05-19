@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonContent, IonGrid, IonRow, IonCol, IonIcon } from '@ionic/angular/standalone';
 import { HeaderComponent } from "../../modules/header/header.component";
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-admin-hub',
@@ -10,14 +10,8 @@ import { Router, RouterModule } from '@angular/router';
     imports: [IonContent, IonGrid, IonRow, IonCol, HeaderComponent, RouterModule, IonIcon],
     standalone: true
 })
-export class AdminHubComponent implements OnInit {
+export class AdminHubComponent {
 
     title = 'Menu admin'
-
-    constructor(
-        private router: Router
-    ) { }
-
-    ngOnInit() { }
 
 }

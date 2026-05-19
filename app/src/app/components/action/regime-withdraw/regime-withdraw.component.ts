@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { RegimeStatusComponent } from "../../modules/regime-status/regime-status.component";
 import { Regime } from 'src/app/classes/regime';
@@ -7,6 +7,7 @@ import { RegimeDataService } from 'src/app/service/regime-data.service';
 import { RegimeDescriptionComponent } from "../../modules/regime-description/regime-description.component";
 import { HeaderComponent } from "../../modules/header/header.component";
 import { NgIf } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-regime-withdraw',
@@ -22,6 +23,8 @@ export class RegimeWithdrawComponent implements OnInit {
     title = 'Démarrer un chantier'
     isDisclaimerChecked = false
 
+    private destroyRef = inject(DestroyRef)
+
     constructor(
         private route: ActivatedRoute,
         private regimeService: RegimeDataService,
@@ -30,10 +33,12 @@ export class RegimeWithdrawComponent implements OnInit {
 
     ngOnInit() {
         this.idRegime = this.route.snapshot.params['id']
-        this.regimeService.regimeList$.subscribe(regimes => {
-            const regimeJson = regimes.find(regime => regime._id.includes(this.idRegime))
-            this.regime = Regime.fromJson(regimeJson)
-        })
+        this.regimeService.regimeList$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(regimes => {
+                const regimeJson = regimes.find(regime => regime._id.includes(this.idRegime))
+                this.regime = Regime.fromJson(regimeJson)
+            })
     }
 
     back(): void {

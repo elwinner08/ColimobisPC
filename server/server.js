@@ -22,10 +22,17 @@ const CSV_HEADERS = ['_id', 'requestNumber', 'ot', 'rf', 'label', 'state'];
 const BOM = '\uFEFF';
 
 // --- Middleware ---
-app.use(express.json({ limit: '5mb' }));
+app.use(express.json({ limit: '1mb' }));
 
-// Fichiers statiques Angular
-app.use(express.static(WWW_PATH));
+// Fichiers statiques Angular (cache long pour assets hashés Angular)
+app.use(express.static(WWW_PATH, {
+    maxAge: '1d',
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('index.html')) {
+            res.setHeader('Cache-Control', 'no-cache');
+        }
+    }
+}));
 
 // --- Helpers CSV ---
 
