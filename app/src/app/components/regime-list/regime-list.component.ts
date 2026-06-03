@@ -42,7 +42,9 @@ export class RegimeListComponent implements OnInit {
         this.regimeService.regimeList$
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(regimes => {
-                this.regimeList = regimes.filter(regime => normalize(regime.rf ?? '').includes(normalizedSearch))
+                this.regimeList = regimes.filter(regime =>
+                    [regime.rf, regime.ot, regime._id]
+                        .some(field => normalize(field ?? '').includes(normalizedSearch)))
             })
     }
 
