@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonGrid, IonRow, IonCol, IonIcon, IonInput } from '@ionic/angular/standalone';
 import { HeaderComponent } from "../modules/header/header.component";
+import { RegimeActionForm } from 'src/app/classes/regime-action';
 
 @Component({
     standalone: true,
@@ -14,13 +15,28 @@ import { HeaderComponent } from "../modules/header/header.component";
 export class RegimeSearchComponent {
     title = 'Sélection d\'attestations'
     regimeId = ''
+    regimeAction: RegimeActionForm = RegimeActionForm.NONE
 
     constructor(
         private router: Router
     ) { }
 
     queryRegimes(regimeId: string): void {
-        this.router.navigate(['regime-list', regimeId.toUpperCase()])
+        // La recherche ne se lance que si une action est sélectionnée
+        if (this.regimeAction === RegimeActionForm.NONE) {
+            return
+        }
+        this.router.navigate(['regime-list', regimeId.toUpperCase()], {
+            queryParams: { action: this.regimeAction }
+        })
+    }
+
+    accessList(): void {
+        // Raccourci : force l'action « Retirer » et affiche les attestations disponibles
+        this.regimeAction = RegimeActionForm.REMOVE_ACTION
+        this.router.navigate(['regime-list', ''], {
+            queryParams: { action: RegimeActionForm.REMOVE_ACTION }
+        })
     }
 
 }

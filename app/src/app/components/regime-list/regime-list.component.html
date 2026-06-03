@@ -24,8 +24,8 @@
             </ion-grid>
         </form>
 
-        <!-- regimeList gets a filtered list if the form action is WITHDRAW_ACTION -->
-        <module-regime-table [regimeList]="regimeAction === 1 ? regimeFilteredList : regimeList" [isEditable]="false"
+        <!-- displayedRegimes filtre la liste selon l'action sélectionnée -->
+        <module-regime-table [regimeList]="displayedRegimes" [isEditable]="false"
             (onAction)="toAction($event)"></module-regime-table>
 
         <div class="button-zone">

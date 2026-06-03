@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Regime, RegimeState } from 'src/app/classes/regime';
+import { RegimeActionForm } from 'src/app/classes/regime-action';
 import { RegimeDataService } from 'src/app/service/regime-data.service';
 import { IonContent, IonGrid, IonRow, IonCol, IonIcon } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +19,6 @@ import { RegimeTableComponent } from "../modules/regime-table/regime-table.compo
 export class RegimeListComponent implements OnInit {
 
     regimeList: Regime[] = []
-    regimeFilteredList: Regime[] = []
     regimeAction: RegimeActionForm = RegimeActionForm.NONE
     searchTerm = ''
     title = 'Sélection d\'attestations'
@@ -33,14 +33,32 @@ export class RegimeListComponent implements OnInit {
 
     ngOnInit() {
         this.searchTerm = this.route.snapshot.params['search']
+        const action = this.route.snapshot.queryParams['action']
+        if (action !== undefined && action !== null && action !== '') {
+            this.regimeAction = Number(action) as RegimeActionForm
+        }
         const normalize = (s: string) => s.replace(/\s/g, '').toUpperCase()
         const normalizedSearch = normalize(this.searchTerm)
         this.regimeService.regimeList$
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(regimes => {
-                this.regimeList = regimes.filter(regime => normalize(regime.rf ?? '').includes(normalizedSearch))
-                this.regimeFilteredList = this.regimeList.filter(regime => regime.state === RegimeState.STARTED)
+                this.regimeList = regimes.filter(regime =>
+                    [regime.rf, regime.ot, regime._id]
+                        .some(field => normalize(field ?? '').includes(normalizedSearch)))
             })
+    }
+
+    get displayedRegimes(): Regime[] {
+        switch (this.regimeAction) {
+            case RegimeActionForm.REMOVE_ACTION:
+                return this.regimeList.filter(regime =>
+                    regime.state === RegimeState.AUTHORIZED || regime.state === RegimeState.RETURNED_UNDONE)
+            case RegimeActionForm.WITHDRAW_ACTION:
+                return this.regimeList.filter(regime => regime.state === RegimeState.STARTED)
+            default:
+                // PRINT_ACTION et NONE : aucun résultat
+                return []
+        }
     }
 
     moveBack() {
@@ -58,11 +76,4 @@ export class RegimeListComponent implements OnInit {
         }
     }
 
-}
-
-enum RegimeActionForm {
-    NONE = -1,
-    REMOVE_ACTION = 0,
-    WITHDRAW_ACTION,
-    PRINT_ACTION
 }

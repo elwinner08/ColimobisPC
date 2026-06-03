@@ -40,7 +40,9 @@ export class RegimeSyncService {
                 ot: r.ot || '',
                 rf: r.rf || '',
                 label: r.label || '',
-                state: r.state || ''
+                // Normalisé en majuscules pour correspondre aux valeurs de RegimeState
+                // (le CSV peut contenir des saisies en minuscules, ex. « autorisé »)
+                state: (r.state || '').trim().toUpperCase()
             } as Regime));
         } catch (err) {
             console.error('Chargement API echoue:', err);

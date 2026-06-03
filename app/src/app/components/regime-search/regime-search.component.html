@@ -5,6 +5,24 @@
 
         <ion-grid>
 
+            <ion-row class="regime-action-row">
+                <ion-col size="12" size-sm="4">
+                    <input type="radio" name="regime-action" id="remove-action" [value]="0" value="0"
+                        [(ngModel)]="regimeAction">
+                    <label for="remove-action">Retirer une attestation</label>
+                </ion-col>
+                <ion-col size="12" size-sm="4">
+                    <input type="radio" name="regime-action" id="withdraw-action" [value]="1" value="1"
+                        [(ngModel)]="regimeAction">
+                    <label for="withdraw-action">Rendre une attestation</label>
+                </ion-col>
+                <ion-col size="12" size-sm="4">
+                    <input type="radio" name="regime-action" id="print-action" [value]="2" value="2"
+                        [(ngModel)]="regimeAction">
+                    <label for="print-action">Imprimer un duplicata d'attestation</label>
+                </ion-col>
+            </ion-row>
+
             <ion-row>
                 <ion-col>
                     <h3 class="form-title">Scannez vos références</h3>
@@ -26,7 +44,7 @@
 
             <ion-row>
                 <ion-col>
-                    <button class="coli-btn coli-btn-w-icon" (click)="queryRegimes('')">
+                    <button class="coli-btn coli-btn-w-icon" (click)="accessList()">
                         <ion-icon name="search"></ion-icon>
                         <span>Accéder à votre liste d'attestations</span>
                     </button>

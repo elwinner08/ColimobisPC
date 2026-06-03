@@ -35,7 +35,9 @@ export class RegimeExternalLoaderService {
       ot: S(r.ot),
       rf: S(r.rf),
       label: S(r.label),
-      state: S(r.state) as any
+      // L'état est normalisé en majuscules pour correspondre aux valeurs de RegimeState
+      // (le CSV peut contenir des saisies en minuscules, ex. « autorisé »)
+      state: S(r.state).toUpperCase() as any
     };
   }
 

@@ -16,3 +16,31 @@ button {
 .one-line {
     display: flex;
 }
+
+.regime-action-row {
+    margin-bottom: 15px;
+
+    ion-col {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    input[type="radio"] {
+        width: auto;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+
+    label {
+        color: white;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 600px) {
+    .regime-action-row ion-col {
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+}
