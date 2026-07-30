@@ -32,10 +32,12 @@ export class RegimeSearchComponent {
     }
 
     accessList(): void {
-        // Raccourci : force l'action « Retirer » et affiche les attestations disponibles
-        this.regimeAction = RegimeActionForm.REMOVE_ACTION
+        // Conserve l'action déjà sélectionnée (Retirer/Rendre) ; à défaut, applique « Retirer »
+        if (this.regimeAction === RegimeActionForm.NONE || this.regimeAction === RegimeActionForm.PRINT_ACTION) {
+            this.regimeAction = RegimeActionForm.REMOVE_ACTION
+        }
         this.router.navigate(['regime-list', ''], {
-            queryParams: { action: RegimeActionForm.REMOVE_ACTION }
+            queryParams: { action: this.regimeAction }
         })
     }
 
