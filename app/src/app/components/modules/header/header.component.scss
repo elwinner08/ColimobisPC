@@ -13,6 +13,10 @@ ion-header {
     small {
         margin-left: 2vh;
     }
+
+    small:last-child {
+        cursor: pointer;
+    }
 }
 
 small {
